@@ -1,3 +1,5 @@
+import { isNumber } from "./utils/is";
+
 export enum TokenType {
   Number,
   Identifir,
@@ -40,6 +42,19 @@ export const tokenize = (source: string): Token[] => {
       tokens.push(token(TokenType.BinaryOperator, src.shift()));
     } else if (src[0] === "=") {
       tokens.push(token(TokenType.Equals, src.shift()));
+    } else {
+      // multi character tokens
+
+      // number token
+      if (isNumber(src[0])) {
+        let num = "";
+
+        while (src.length > 0 && isNumber(src[0])) {
+          num += src.shift();
+        }
+
+        tokens.push(token(TokenType.Number, num));
+      }
     }
   }
 
