@@ -1,7 +1,10 @@
 {
   "name": "foolang",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -9,3 +12,4 @@
     "typescript": "^5.0.0"
   }
 }
+

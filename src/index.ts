@@ -1,14 +1,18 @@
-import { isNumber } from "./utils/is";
+import { isAlphabetic, isNumber, isWhitespace } from "./utils/is";
 
 export enum TokenType {
   Number,
-  Identifir,
+  Identifier,
   Equals,
   OpenParen,
   CloseParen,
   BinaryOperator,
   Let,
 }
+
+const KEYWORDS: Record<string, TokenType> = {
+  let: TokenType.Let,
+};
 
 export interface Token {
   value: string;
@@ -54,9 +58,40 @@ export const tokenize = (source: string): Token[] => {
         }
 
         tokens.push(token(TokenType.Number, num));
+      } else if (isAlphabetic(src[0])) {
+        // identifier token
+
+        let identifier = "";
+
+        while (src.length > 0 && isAlphabetic(src[0])) {
+          identifier += src.shift();
+        }
+
+        // check for reserved KEYWORDS
+        const reserved = KEYWORDS[identifier];
+
+        if (reserved === undefined) {
+          tokens.push(token(TokenType.Identifier, identifier));
+        } else {
+          // keywords
+          tokens.push(token(reserved, identifier));
+        }
+
+        tokens.push(token(TokenType.Identifier, identifier));
+      } else if (isWhitespace(src[0])) {
+        src.shift();
+      } else {
+        console.log("Unrecognized character found in source:", src[0]);
+        process.exit(1);
       }
     }
   }
 
   return tokens;
 };
+
+const source = await Bun.file("src/foo.txt").text();
+
+for (const token of tokenize(source)) {
+  console.log(token);
+}

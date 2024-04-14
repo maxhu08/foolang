@@ -8,3 +8,7 @@ export const isNumber = (value: string) => {
 
   return c >= bounds[0] && c <= bounds[1];
 };
+
+export const isWhitespace = (value: string) => {
+  return value === " " || value === "\n" || value === "\t";
+};
