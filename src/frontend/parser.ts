@@ -48,8 +48,37 @@ export default class Parser {
   }
 
   private parseExpression(): Expression {
-    return this.parsePrimaryExpression();
+    return this.parseAdditiveExpression();
   }
+
+  private parseAdditiveExpression(): Expression {
+    let left = this.parsePrimaryExpression();
+
+    // recursive
+    while (this.at().value === "+" || this.at().value === "-") {
+      const operator = this.eat().value;
+      const right = this.parsePrimaryExpression();
+
+      left = {
+        kind: "BinaryExpression",
+        left,
+        right,
+        operator,
+      } as BinaryExpression;
+    }
+
+    return left;
+  }
+
+  // orders of prescidence
+  // AssignmentExpression
+  // MemberExpression
+  // FunctionCall
+  // LogicalExpression
+  // ComparisonExpression
+  // AdditiveExpression
+  // MultiplicativeExpression
+  // PrimaryExpression
 
   private parsePrimaryExpression(): Expression {
     const tkType = this.at().type;
