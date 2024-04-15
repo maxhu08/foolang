@@ -8,6 +8,7 @@ export enum TokenType {
   CloseParen,
   BinaryOperator,
   Let,
+  EOF,
 }
 
 const KEYWORDS: Record<string, TokenType> = {
@@ -87,11 +88,13 @@ export const tokenize = (source: string): Token[] => {
     }
   }
 
+  tokens.push(token(TokenType.EOF, "eof"));
+
   return tokens;
 };
 
 const source = await Bun.file("src/foo.txt").text();
 
 for (const token of tokenize(source)) {
-  console.log(token);
+  console.log(JSON.stringify(token));
 }
