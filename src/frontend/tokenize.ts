@@ -1,4 +1,4 @@
-import { isAlphabetic, isNumber, isWhitespace } from "../utils/is";
+import { isAlphabetic, isNumber, isWhitespace } from "./is";
 
 export enum TokenType {
   Number,
