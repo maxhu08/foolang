@@ -42,7 +42,8 @@ export const tokenize = (source: string): Token[] => {
       src[0] === "+" ||
       src[0] === "-" ||
       src[0] === "*" ||
-      src[0] === "/"
+      src[0] === "/" ||
+      src[0] === "%"
     ) {
       tokens.push(token(TokenType.BinaryOperator, src.shift()));
     } else if (src[0] === "=") {

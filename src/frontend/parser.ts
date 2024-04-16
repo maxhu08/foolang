@@ -52,10 +52,34 @@ export default class Parser {
   }
 
   private parseAdditiveExpression(): Expression {
-    let left = this.parsePrimaryExpression();
+    // multiplication takes priority
+    let left = this.parseMultiplicativeExpression();
 
     // recursive
     while (this.at().value === "+" || this.at().value === "-") {
+      const operator = this.eat().value;
+      const right = this.parseMultiplicativeExpression();
+
+      left = {
+        kind: "BinaryExpression",
+        left,
+        right,
+        operator,
+      } as BinaryExpression;
+    }
+
+    return left;
+  }
+
+  private parseMultiplicativeExpression(): Expression {
+    let left = this.parsePrimaryExpression();
+
+    // recursive
+    while (
+      this.at().value === "/" ||
+      this.at().value === "*" ||
+      this.at().value === "%"
+    ) {
       const operator = this.eat().value;
       const right = this.parsePrimaryExpression();
 
