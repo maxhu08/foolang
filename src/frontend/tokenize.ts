@@ -78,8 +78,6 @@ export const tokenize = (source: string): Token[] => {
           // keywords
           tokens.push(token(reserved, identifier));
         }
-
-        tokens.push(token(TokenType.Identifier, identifier));
       } else if (isWhitespace(src[0])) {
         src.shift();
       } else {

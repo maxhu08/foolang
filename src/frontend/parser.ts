@@ -107,6 +107,8 @@ export default class Parser {
   private parsePrimaryExpression(): Expression {
     const tkType = this.at().type;
 
+    console.log(this.at());
+
     switch (tkType) {
       case TokenType.Identifier:
         this.eat();
@@ -116,6 +118,13 @@ export default class Parser {
           kind: "NumericLiteral",
           value: parseFloat(this.eat().value),
         } as NumericLiteral;
+      case TokenType.OpenParen: {
+        this.eat(); // eat opening paren
+        const inside = this.parseExpression();
+        this.eat(); // eat closing paren
+
+        return inside;
+      }
 
       default:
         console.error("unexpected token found during parsing:", this.at());
