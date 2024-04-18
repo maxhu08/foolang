@@ -5,6 +5,7 @@ import type {
   BinaryExpression,
   NumericLiteral,
   Identifier,
+  NullLiteral,
 } from "./ast";
 import { tokenize, TokenType, type Token } from "./tokenize";
 
@@ -21,6 +22,18 @@ export default class Parser {
 
   private eat() {
     const prev = this.tokens.shift() as Token;
+
+    return prev;
+  }
+
+  private expect(type: TokenType, err: any) {
+    const prev = this.tokens.shift() as Token;
+
+    if (!prev || prev.type === type) {
+      console.error("Parser error:\n", err, prev, "Expecting: ", type);
+
+      process.exit(1);
+    }
 
     return prev;
   }
@@ -74,6 +87,8 @@ export default class Parser {
   private parseMultiplicativeExpression(): Expression {
     let left = this.parsePrimaryExpression();
 
+    console.log("sdfjlkfsdajklfsdfsda", this.at());
+
     // recursive
     while (
       this.at().value === "/" ||
@@ -107,12 +122,12 @@ export default class Parser {
   private parsePrimaryExpression(): Expression {
     const tkType = this.at().type;
 
-    console.log(this.at());
-
     switch (tkType) {
       case TokenType.Identifier:
-        this.eat();
         return { kind: "Identifier", symbol: this.eat().value } as Identifier;
+      case TokenType.Null:
+        this.eat();
+        return { kind: "NullLiteral", value: "null" } as NullLiteral;
       case TokenType.Number:
         return {
           kind: "NumericLiteral",
@@ -121,7 +136,10 @@ export default class Parser {
       case TokenType.OpenParen: {
         this.eat(); // eat opening paren
         const inside = this.parseExpression();
-        this.eat(); // eat closing paren
+        this.expect(
+          TokenType.CloseParen,
+          "Unexpected token found inside parenthesized expression. Expected closing paren",
+        ); // eat closing paren
 
         return inside;
       }

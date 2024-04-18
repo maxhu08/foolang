@@ -1,6 +1,7 @@
 import { isAlphabetic, isNumber, isWhitespace } from "./is";
 
 export enum TokenType {
+  Null,
   Number,
   Identifier,
   Equals,
@@ -26,6 +27,7 @@ export const token = (type: TokenType, value: string = ""): Token => {
 export const tokenize = (source: string): Token[] => {
   const KEYWORDS: Record<string, TokenType> = {
     let: TokenType.Let,
+    null: TokenType.Null,
   };
 
   const tokens: Token[] = [];
@@ -72,7 +74,7 @@ export const tokenize = (source: string): Token[] => {
         // check for reserved KEYWORDS
         const reserved = KEYWORDS[identifier];
 
-        if (reserved === undefined) {
+        if (typeof reserved === "number") {
           tokens.push(token(TokenType.Identifier, identifier));
         } else {
           // keywords
