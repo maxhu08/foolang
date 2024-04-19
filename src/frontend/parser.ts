@@ -87,8 +87,6 @@ export default class Parser {
   private parseMultiplicativeExpression(): Expression {
     let left = this.parsePrimaryExpression();
 
-    console.log("sdfjlkfsdajklfsdfsda", this.at());
-
     // recursive
     while (
       this.at().value === "/" ||
