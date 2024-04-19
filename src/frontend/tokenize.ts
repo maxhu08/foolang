@@ -73,8 +73,9 @@ export const tokenize = (source: string): Token[] => {
 
         // check for reserved KEYWORDS
         const reserved = KEYWORDS[identifier];
+        console.log("res", reserved, identifier);
 
-        if (typeof reserved === "number") {
+        if (typeof reserved !== "number") {
           tokens.push(token(TokenType.Identifier, identifier));
         } else {
           // keywords
