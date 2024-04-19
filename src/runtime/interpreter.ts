@@ -44,7 +44,7 @@ function evaluateNumericBinaryExpression(
   if (operator === "+") {
     result = lhs.value + rhs.value;
   } else if (operator === "-") {
-    result = lhs.value + rhs.value;
+    result = lhs.value - rhs.value;
   } else if (operator === "*") {
     result = lhs.value * rhs.value;
   } else if (operator === "/") {
