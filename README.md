@@ -1,12 +1,18 @@
 # foolang
 
-To install dependencies:
+### info
+
+This is a project I'm working on in order to learn to make programming languages and how to learn how they work.
+
+This is a simple interpreted language written typescript I made following this tutorial:
+
+https://www.youtube.com/playlist?list=PL_2VhOvlMk4UHGqYCLWc6GO8FaPl8fQTh
+
+### setup
 
 ```bash
 bun install
 ```
-
-To run:
 
 ```bash
 bun run index.ts
